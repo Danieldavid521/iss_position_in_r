@@ -12,8 +12,8 @@ ui <- dashboardPage(skin = "yellow",
     dashboardBody(
         fluidRow(
        box(title = "Current Location", background = "light-blue", leafletOutput("mymap")),
-       box(title = "Latitude", background = "light-blue",status = "primary",textOutput("isslat")),
-       box(title = "Longitude", background = "light-blue",status = "primary",textOutput("isslon")),
+       box(title = "Longitude", background = "light-blue",status = "primary",textOutput("isslat")),
+       box(title = "Latitude", background = "light-blue",status = "primary",textOutput("isslon")),
        
        
 )))
