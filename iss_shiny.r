@@ -16,12 +16,9 @@ ui <- dashboardPage(skin = "yellow",
                     dashboardBody(
                         fluidRow(
                             box(title = "Current Location", background = "light-blue", leafletOutput("mymap")),
-                            box(title = "Longitude", background = "light-blue",status = "primary",textOutput("isslat")),
-                            box(title = "Latitude", background = "light-blue",status = "primary",textOutput("isslon")),
-                            box(title = "Current Time", background = "yellow", status = "primary",as.POSIXct(as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[4]])), origin="1970-01-01")),
-                            
-                            
-                        )))
+                            box(title = "Longitude", background = "light-blue",status = "primary",textOutput("isslon")),
+                            box(title = "Latitude", background = "light-blue",status = "primary",textOutput("isslat")),
+                            box(title = "Current Time", background = "yellow", status = "primary",textOutput("timestamp"))),))
 
 server <- function(input, output) {
     
@@ -29,13 +26,18 @@ server <- function(input, output) {
     
     isslat <- reactive({
         timer()
-        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[4]]))
+        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[2]]))
     })
     output$iss <- renderPrint(iss())
     
     isslon <- reactive({
         timer()
-        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[3]]))
+        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[1]]))
+    })
+    
+    timestamp <- reactive({
+        timer()
+        as.POSIXct(as.numeric(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[3]]), origin="1970-01-01")
     })
     output$isslat <- renderText(isslat())
     output$isslon <- renderText(isslon())
@@ -54,4 +56,3 @@ server <- function(input, output) {
 }
 
 shinyApp(ui, server)
-
