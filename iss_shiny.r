@@ -18,7 +18,7 @@ ui <- dashboardPage(skin = "yellow",
                             box(title = "Current Location", background = "light-blue", leafletOutput("mymap")),
                             box(title = "Longitude", background = "light-blue",status = "primary",textOutput("isslon")),
                             box(title = "Latitude", background = "light-blue",status = "primary",textOutput("isslat")),
-                            box(title = "Time Stamp", background = "light-blue", status = "primary",textOutput("timestamp"))),))
+                            box(title = "Time Stamp", background = "light-blue", status = "primary",verbatimTextOutput("timestamp"))),))
 
 server <- function(input, output) {
     
@@ -37,7 +37,7 @@ server <- function(input, output) {
     
     timestamp <- reactive({
         timer()
-        as.POSIXct(fromJSON("http://api.open-notify.org/iss-now.json")[[2]], origin="1970-01-01")
+        as.character(as.POSIXct(fromJSON("http://api.open-notify.org/iss-now.json")[[1]], origin="1970-01-01"))
     })
     output$isslat <- renderText(isslat())
     output$isslon <- renderText(isslon())
