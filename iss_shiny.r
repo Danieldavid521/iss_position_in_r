@@ -6,6 +6,7 @@ library(shiny)
 library(shinyjs)
 library(shinythemes)
 library(shinydashboard)
+source("shinyjs_navbar.R")
 
 ui <- dashboardPage(skin = "yellow",
                     dashboardHeader(title ="ISS Current Location"),
@@ -26,18 +27,18 @@ server <- function(input, output) {
     
     isslat <- reactive({
         timer()
-        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[3]]))
+        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[1]]))
     })
     output$iss <- renderPrint(iss())
     
     isslon <- reactive({
         timer()
-        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[4]]))
+        as.numeric(as.character(as.data.frame(fromJSON("http://api.open-notify.org/iss-now.json"))[[2]]))
     })
     
     timestamp <- reactive({
         timer()
-        as.character(as.POSIXct(fromJSON("http://api.open-notify.org/iss-now.json")[[1]], origin="1970-01-01"))
+       as.POSIXct(fromJSON("http://api.open-notify.org/iss-now.json")[[3]], origin="1970-01-01")
     })
     output$isslat <- renderText(isslat())
     output$isslon <- renderText(isslon())
